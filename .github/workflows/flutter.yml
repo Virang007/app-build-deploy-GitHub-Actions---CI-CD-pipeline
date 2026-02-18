@@ -1,0 +1,38 @@
+name : Flutter CI
+
+on:
+  push:
+  branches:
+    - main
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+  steps:
+    - name: checkout code
+    - uses: actions/checkout@v3
+
+    - name: setup flutter
+      uses: actions/setup-flutter@v2
+      with:
+        flutter-version: '0.0.1'
+
+    - name: install dependencies
+      run: flutter pub get  
+
+    - name: run tests
+      run: flutter analyze 
+
+    - name: Run tests
+      run: flutter test    
+
+    - name: Build apk
+      run: flutter build apk --release  
+
+    - name: app-release
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-release
+        path: build/app/outputs/flutter-apk/app-release.apk 

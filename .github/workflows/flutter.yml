@@ -9,40 +9,30 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Code checkout karo
-      - name: Checkout code
+      # Code uthao
+      - name: Code uthao
         uses: actions/checkout@v3
 
-      # Purana Flutter cache hatao (taaki sahi version aaye)
-      - name: Remove old Flutter cache
-        run: |
-          rm -rf "$HOME/.flutter"
-          rm -rf "$HOME/.pub-cache"
-
-      # Flutter setup karo
-      - name: Setup Flutter
+      # Flutter lagao
+      - name: Flutter lagao
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.41.1'  # Project ke hisab se sahi version
+          flutter-version: '3.41.1'
 
-      # Dependencies install karo
-      - name: Install dependencies
+      # Package lao
+      - name: Package lao
         run: flutter pub get
 
-      # Code analyze karo
-      - name: Analyze code
-        run: flutter analyze
-
-      # Test run karo
-      - name: Run tests
+      # Test chalao
+      - name: Test chalao
         run: flutter test
 
-      # APK build karo
-      - name: Build APK
+      # APK banao
+      - name: APK banao
         run: flutter build apk --release
 
       # APK upload karo
-      - name: Upload APK
+      - name: APK upload karo
         uses: actions/upload-artifact@v4
         with:
           name: app-release

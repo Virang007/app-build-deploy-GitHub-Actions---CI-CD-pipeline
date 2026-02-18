@@ -1,38 +1,43 @@
-name : Flutter CI
+name: Flutter CI
 
+# Jab bhi main branch pe push ho, tab yeh workflow chalega
 on:
   push:
-  branches:
-    - main
-
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    steps:
+      # Code checkout karo
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  steps:
-    - name: checkout code
-    - uses: actions/checkout@v3
+      # Flutter setup karo
+      - name: Setup Flutter
+        uses: actions/setup-flutter@v2
+        with:
+          flutter-version: '3.19.0'  # Latest stable version use karo
 
-    - name: setup flutter
-      uses: actions/setup-flutter@v2
-      with:
-        flutter-version: '0.0.1'
+      # Dependencies install karo
+      - name: Install dependencies
+        run: flutter pub get
 
-    - name: install dependencies
-      run: flutter pub get  
+      # Code analyze karo
+      - name: Analyze code
+        run: flutter analyze
 
-    - name: run tests
-      run: flutter analyze 
+      # Test run karo
+      - name: Run tests
+        run: flutter test
 
-    - name: Run tests
-      run: flutter test    
+      # APK build karo
+      - name: Build APK
+        run: flutter build apk --release
 
-    - name: Build apk
-      run: flutter build apk --release  
-
-    - name: app-release
-      uses: actions/upload-artifact@v3
-      with:
-        name: app-release
-        path: build/app/outputs/flutter-apk/app-release.apk 
+      # APK upload karo
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release
+          path: build/app/outputs/flutter-apk/app-release.apk
